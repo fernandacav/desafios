@@ -3,14 +3,13 @@ import "./App.css";
 import { Box, Button, Card, TextField, Typography } from "@mui/material";
 
 function App() {
-  const [num1, setNum1] = useState<string>("");
-
+  const [binario, setBinario] = useState<string>("");
   const [decimal, setDecimal] = useState(0);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const conversorBin = () => {
-    if (/^[01]{1,8}$/.test(num1)) {
-      let numDecimal = num1
+    if (/^[01]{1,8}$/.test(binario)) {
+      let numDecimal = binario
         .split("")
         .reverse()
         .map((item, index) => {
@@ -63,8 +62,8 @@ function App() {
             sx={{ my: 1, width: "200px" }}
             id="binario"
             name="binario"
-            value={num1}
-            onChange={(ev) => setNum1(ev.target.value)}
+            value={binario}
+            onChange={(ev) => setBinario(ev.target.value)}
           ></TextField>
         </Box>
         <Box sx={{ marginTop: "20px" }}>
