@@ -1,25 +1,95 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import { Box, Button, Card, TextField, Typography } from "@mui/material";
 
 function App() {
+  const [num1, setNum1] = useState<string>("");
+
+  const [decimal, setDecimal] = useState(0);
+  const [errorMessage, setErrorMessage] = useState<string>("");
+
+  const conversorBin = () => {
+    if (/^[01]{1,8}$/.test(num1)) {
+      let numDecimal = num1
+        .split("")
+        .reverse()
+        .map((item, index) => {
+          return parseInt(item, 10) * Math.pow(2, index);
+        })
+        .reduce((acc, item) => {
+          return acc + item;
+        }, 0);
+      console.log(numDecimal);
+      setErrorMessage("");
+      setDecimal(numDecimal);
+    } else {
+      setDecimal(0);
+      setErrorMessage(
+        "Por favor, insira uma sequência binária válida de até 8 dígitos (apenas 0's e 1's)."
+      );
+    }
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <Box
+      sx={{
+        backgroundColor: "#ccc",
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        flexDirection: "column",
+      }}
+    >
+      <Typography sx={{ marginTop: "60px", fontSize: "48px" }}>
+        Converter Binário em Decimal
+      </Typography>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+          height: "65vh",
+        }}
+      >
+        <Typography>Insira a sequência binário</Typography>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+          <TextField
+            sx={{ my: 1, width: "200px" }}
+            id="binario"
+            name="binario"
+            value={num1}
+            onChange={(ev) => setNum1(ev.target.value)}
+          ></TextField>
+        </Box>
+        <Box sx={{ marginTop: "20px" }}>
+          <Button variant="contained" onClick={conversorBin}>
+            Converter
+          </Button>
+          <Typography sx={{ marginTop: "20px", marginBottom: "10px" }}>
+            Número decimal:
+          </Typography>
+          <Card
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Typography sx={{ p: 1 }}>
+              {" "}
+              {decimal !== null && <h2>Decimal: {decimal}</h2>}
+              {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+            </Typography>
+          </Card>
+        </Box>
+      </Box>
+    </Box>
   );
 }
 
